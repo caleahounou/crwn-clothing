@@ -1,11 +1,15 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+
 import './menu-item.styles.scss';
 
 //utilisation des props venant du composant directory
-const MenuItem = ({ title, imageUrl, size }) => (
+const MenuItem = ({ title, imageUrl, size, history, match, linkUrl }) => (
     <div 
     //passage d'une classe en css de façon dynamique
-        className = {`${ size } menu-item`}>
+        className = {`${ size } menu-item`}
+    //redirection vers la page de hats. /shop/hats devient le chemin racine pour la boutique hats
+        onClick={() => (history.push(`${match.url}${linkUrl}`))}>
         <div className='background-image'
             //ajouter un style de facon dynamique
         style={{
@@ -21,4 +25,4 @@ const MenuItem = ({ title, imageUrl, size }) => (
     </div>
 )
 
-export default MenuItem;
+export default withRouter(MenuItem);
