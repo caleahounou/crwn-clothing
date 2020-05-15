@@ -16,4 +16,4 @@ const CollectionItem = ({id, name, price,imageUrl}) => (
     </div>
 )
 
-export default CollectionItem
+export default CollectionItem;
