@@ -2,7 +2,7 @@ import React from 'react';
 import './sign-in.styles.scss'
 import FormImput from '../form-imput/form-imput.component';
 import CustomButton from '../custom-button/custom-buttom.component';
-import { signInWithGoogle } from '../../firebase/firebase.utils';
+import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
 
 
 class SignIn extends React.Component {
@@ -15,12 +15,20 @@ class SignIn extends React.Component {
         }
     }
 
-    handleSubmit = event => {
+    // gestion d'envoie du formulaire avec connexion email et password puis API google
+    handleSubmit = async event => {
         event.preventDefault();
 
-        this.setState({ email: '', password: '' })
+        const { email, password } = this.state;
+        try {
+            await auth.signInWithEmailAndPassword(email, password);
+            this.setState({ email: '', password: '' })
+        } catch(error) {
+            console.log(error);
+        }
+        
     }
-
+    //on donne à la variable name la valeur de la propriété value
     handleChange = event => {
         const {value, name } = event.target;
         this.setState({[name]: value});
@@ -53,7 +61,7 @@ class SignIn extends React.Component {
                     />
                     <div className="buttons">
                         <CustomButton type='submit'>Sign in</CustomButton>
-                        <CustomButton onClick = {signInWithGoogle} isGoogleSignIn>Sign in with Google</CustomButton>
+                        <CustomButton type="button" onClick = {signInWithGoogle} isGoogleSignIn>Sign in with Google</CustomButton>
                     </div>
                     
                 </form>
